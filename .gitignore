@@ -1,0 +1,40 @@
+# Vendor dependencies and lockfile
+/vendor/
+/composer.lock
+
+# Laravel environment files
+/.env
+/.env.*     
+
+# PHPUnit cache & results
+/.phpunit.result.cache
+.phpunit.result.cache
+
+# IDEs and editors
+/.idea/
+/.vscode/
+/*.sublime-project
+/*.sublime-workspace
+
+# Node (if you ever use npm/Yarn for docs or tooling)
+/node_modules/
+/npm-debug.log
+/yarn-error.log
+
+# Logs and runtime files
+/logs/
+/*.log
+
+# Coverage reports
+/coverage/
+/*.coveragerc
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Miscellaneous
+/.phpunit.cache
+/.docker
+/Dockerfile
+/docker-compose.yml

@@ -1,0 +1,31 @@
+{
+  "name": "sevada/nie-validator",
+  "description": "Laravel validation rule for Spanish NIE numbers",
+  "type": "library",
+  "license": "MIT",
+  "require": {
+    "php": ">=8.0",
+    "orchestra/testbench": "^8.36",
+    "illuminate/support": "^10.0"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^9.5"
+  },
+  "autoload": {
+    "psr-4": {
+      "Sevada\\NieValidator\\": "src/"
+    }
+  },
+  "extra": {
+    "laravel": {
+      "providers": [
+        "Sevada\\NieValidator\\NieValidatorServiceProvider"
+      ]
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Sevada\\NieValidator\\Tests\\": "tests/"
+    }
+  }
+}
