@@ -1,11 +1,11 @@
-# Laravel NIE Validation Package
+# Laravel NIF (NIE/DNI) Validation Package
 
-This package provides a custom Laravel validation rule to verify Spanish NIE numbers (foreigners’ identification) according to the official algorithm regulated by **Real Decreto 1553/2005, Artículo 11**.
+This package provides custom Laravel validation rules to verify Spanish NIF numbers — covering both NIE (foreigners' identification) and DNI — according to the official algorithm regulated by **Real Decreto 1553/2005, Artículo 11**.
 
 ### Installation
 
 ```markdown
-composer require sevada/nie-validator
+composer require sevada/nif-validator
 ```
 
 ### Usage
@@ -13,17 +13,20 @@ composer require sevada/nie-validator
 In your Form Request or validator rules:
 
 ```php
-use Sevada\NieValidator\Rules\Nie;
+use Sevada\NifValidator\Rules\Nie;
+use Sevada\NifValidator\Rules\Dni;
 $request->validate([
     'nie_number' => ['required', new Nie],
+    'dni_number' => ['required', new Dni],
 ]);
 ```
 
-Or with the nie shorthand:
+Or with the `nie`/`dni` shorthands:
 
 ```php
 $request->validate([
     'nie_number' => ['required', 'nie'],
+    'dni_number' => ['required', 'dni'],
 ]);
 ```
 

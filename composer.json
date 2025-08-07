@@ -1,6 +1,6 @@
 {
-  "name": "sevada/nie-validator",
-  "description": "Laravel validation rule for Spanish NIE numbers",
+  "name": "sevada/nif-validator",
+  "description": "Laravel validation rules for Spanish NIE and DNI numbers",
   "type": "library",
   "license": "MIT",
   "require": {
@@ -13,19 +13,19 @@
   },
   "autoload": {
     "psr-4": {
-      "Sevada\\NieValidator\\": "src/"
+      "Sevada\\NifValidator\\": "src/"
     }
   },
   "extra": {
     "laravel": {
       "providers": [
-        "Sevada\\NieValidator\\NieValidatorServiceProvider"
+        "Sevada\\NifValidator\\NifValidatorServiceProvider"
       ]
     }
   },
   "autoload-dev": {
     "psr-4": {
-      "Sevada\\NieValidator\\Tests\\": "tests/"
+      "Sevada\\NifValidator\\Tests\\": "tests/"
     }
   }
 }

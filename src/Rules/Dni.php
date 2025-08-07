@@ -4,7 +4,7 @@ namespace Sevada\NifValidator\Rules;
 
 use Illuminate\Contracts\Validation\Rule;
 
-class Nie implements Rule
+class Dni implements Rule
 {
     /**
      * Determine if the validation rule passes.
@@ -13,14 +13,12 @@ class Nie implements Rule
     {
         $val = strtoupper(str_replace([' ', '-'], '', $value));
 
-        // Format: X|Y|Z + 7 digits + letter
-        if (! preg_match('/^[XYZ]\d{7}[A-Z]$/', $val)) {
+        // Format: 8 digits + letter
+        if (! preg_match('/^\d{8}[A-Z]$/', $val)) {
             return false;
         }
 
-        // Map prefix to digit
-        $map = ['X' => '0', 'Y' => '1', 'Z' => '2'];
-        $number = $map[$val[0]] . substr($val, 1, 7);
+        $number = substr($val, 0, 8);
         $index  = intval($number) % 23;
 
         $letters  = config('nif.control_letters');
@@ -34,6 +32,6 @@ class Nie implements Rule
      */
     public function message(): string
     {
-        return 'The :attribute is not a valid NIE.';
+        return 'The :attribute is not a valid DNI.';
     }
 }
