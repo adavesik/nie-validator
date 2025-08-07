@@ -1,10 +1,10 @@
 <?php
 
-namespace Sevada\NieValidator\Tests\Unit;
+namespace Sevada\NifValidator\Tests\Unit;
 
 use Orchestra\Testbench\TestCase;
-use Sevada\NieValidator\NieValidatorServiceProvider;
-use Sevada\NieValidator\Rules\Nie;
+use Sevada\NifValidator\NifValidatorServiceProvider;
+use Sevada\NifValidator\Rules\Nie;
 
 class NieRuleTest extends TestCase
 {
@@ -13,7 +13,7 @@ class NieRuleTest extends TestCase
      */
     protected function getPackageProviders($app): array
     {
-        return [NieValidatorServiceProvider::class];
+        return [NifValidatorServiceProvider::class];
     }
 
     public function test_valid_nie(): void
