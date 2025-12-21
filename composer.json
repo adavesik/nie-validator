@@ -1,31 +1,61 @@
 {
-  "name": "sevada/nif-validator",
-  "description": "Laravel validation rules for Spanish NIE and DNI numbers",
+  "name": "sevada/nie-validator",
+  "description": "Laravel validation rule for Spanish NIE (Número de Identidad de Extranjero) numbers",
   "type": "library",
   "license": "MIT",
+  "keywords": [
+    "laravel",
+    "validation",
+    "nie",
+    "spanish",
+    "identity",
+    "validator",
+    "spain"
+  ],
+  "homepage": "https://github.com/sevada/nie-validator",
+  "support": {
+    "issues": "https://github.com/sevada/nie-validator/issues",
+    "source": "https://github.com/sevada/nie-validator"
+  },
   "require": {
-    "php": ">=8.0",
+    "php": "^8.2",
     "illuminate/support": "^10.0|^11.0|^12.0"
   },
   "require-dev": {
-    "phpunit/phpunit": "^9.5",
-    "orchestra/testbench": "^10.0"
+    "phpunit/phpunit": "^10.5|^11.0",
+    "orchestra/testbench": "^8.0|^9.0",
+    "phpstan/phpstan": "^1.10",
+    "laravel/pint": "^1.13"
   },
   "autoload": {
     "psr-4": {
-      "Sevada\\NifValidator\\": "src/"
+      "Sevada\\NieValidator\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Sevada\\NieValidator\\Tests\\": "tests/"
     }
   },
   "extra": {
     "laravel": {
       "providers": [
-        "Sevada\\NifValidator\\NifValidatorServiceProvider"
+        "Sevada\\NieValidator\\NieValidatorServiceProvider"
       ]
     }
   },
-  "autoload-dev": {
-    "psr-4": {
-      "Sevada\\NifValidator\\Tests\\": "tests/"
-    }
-  }
+  "scripts": {
+    "test": "vendor/bin/phpunit",
+    "test:coverage": "vendor/bin/phpunit --coverage-html coverage",
+    "analyze": "vendor/bin/phpstan analyse",
+    "format": "vendor/bin/pint",
+    "format:check": "vendor/bin/pint --test",
+    "check": [
+      "@test",
+      "@analyze",
+      "@format:check"
+    ]
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true
 }

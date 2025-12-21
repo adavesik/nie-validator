@@ -1,0 +1,17 @@
+version: '3.8'
+services:
+  php:
+    image: ghcr.io/devgine/composer-php:latest
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - /home/sevada/nie-validator:/var/www/composer
+    ports:
+      - "8000:8000"
+    command: sh -c "php -S 0.0.0.0:8000 -t /var/www/composer"
+    environment:
+      - COMPOSER_HOME=/composer
+      - COMPOSER_ALLOW_SUPERUSER=1
+      - PATH=/composer/vendor/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+    working_dir: /var/www/composer
