@@ -100,6 +100,8 @@ class Nie implements Rule
      */
     public function message(): string
     {
-        return trans('nif-validator::validation.nie');
+        $message = trans('nif-validator::validation.nie');
+
+        return is_string($message) ? $message : 'The :attribute is not a valid Spanish NIE.';
     }
 }

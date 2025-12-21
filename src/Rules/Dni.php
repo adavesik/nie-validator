@@ -87,6 +87,8 @@ class Dni implements Rule
      */
     public function message(): string
     {
-        return trans('nie-validator::validation.dni');
+        $message = trans('nif-validator::validation.dni');
+
+        return is_string($message) ? $message : 'The :attribute is not a valid Spanish DNI.';
     }
 }

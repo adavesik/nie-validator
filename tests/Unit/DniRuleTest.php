@@ -47,6 +47,9 @@ class DniRuleTest extends TestCase
         $this->assertNotEmpty($message);
     }
 
+    /**
+     * @return array<string, array<string>>
+     */
     public static function validDniProvider(): array
     {
         return [
@@ -60,6 +63,9 @@ class DniRuleTest extends TestCase
         ];
     }
 
+    /**
+     * @return array<string, array<mixed>>
+     */
     public static function invalidDniProvider(): array
     {
         return [

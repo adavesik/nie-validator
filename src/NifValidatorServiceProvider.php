@@ -41,15 +41,25 @@ class NifValidatorServiceProvider extends ServiceProvider
         Validator::extend(
             'nie',
             fn ($attribute, $value) => (new Nie())->passes($attribute, $value),
-            trans('nif-validator::validation.nie')
+            $this->getErrorMessage('nie', 'The :attribute is not a valid Spanish NIE.')
         );
 
         // Register the "dni" validation rule
         Validator::extend(
             'dni',
             fn ($attribute, $value) => (new Dni())->passes($attribute, $value),
-            trans('nif-validator::validation.dni')
+            $this->getErrorMessage('dni', 'The :attribute is not a valid Spanish DNI.')
         );
+    }
+
+    /**
+     * Get the error message for a rule.
+     */
+    private function getErrorMessage(string $rule, string $fallback): string
+    {
+        $message = trans("nif-validator::validation.{$rule}");
+
+        return is_string($message) ? $message : $fallback;
     }
 
     /**
