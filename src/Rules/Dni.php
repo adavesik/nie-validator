@@ -40,8 +40,8 @@ class Dni implements Rule
     /**
      * Determine if the validation rule passes.
      *
-     * @param string $attribute The attribute name being validated
-     * @param mixed $value The value to validate
+     * @param  string  $attribute  The attribute name being validated
+     * @param  mixed  $value  The value to validate
      * @return bool True if the DNI is valid, false otherwise
      */
     public function passes($attribute, $value): bool
@@ -71,12 +71,13 @@ class Dni implements Rule
     /**
      * Calculate the control letter for a given numeric value.
      *
-     * @param int $numericValue The 8-digit numeric value
+     * @param  int  $numericValue  The 8-digit numeric value
      * @return string The expected control letter
      */
     private function calculateControlLetter(int $numericValue): string
     {
         $index = $numericValue % self::MODULO;
+
         return self::CONTROL_LETTERS[$index];
     }
 

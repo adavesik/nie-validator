@@ -26,7 +26,7 @@ class DniRuleTest extends TestCase
      */
     public function test_valid_dni_numbers(string $dni): void
     {
-        $rule = new Dni();
+        $rule = new Dni;
         $this->assertTrue($rule->passes('dni', $dni), "DNI '{$dni}' should be valid");
     }
 
@@ -35,13 +35,13 @@ class DniRuleTest extends TestCase
      */
     public function test_invalid_dni_numbers(mixed $dni, string $reason): void
     {
-        $rule = new Dni();
+        $rule = new Dni;
         $this->assertFalse($rule->passes('dni', $dni), "DNI '{$dni}' should be invalid: {$reason}");
     }
 
     public function test_error_message_is_translatable(): void
     {
-        $rule = new Dni();
+        $rule = new Dni;
         $message = $rule->message();
         $this->assertIsString($message);
         $this->assertNotEmpty($message);
@@ -72,18 +72,18 @@ class DniRuleTest extends TestCase
             // Type errors
             'null value' => [null, 'null is not a string'],
             'integer value' => [12345678, 'integer is not a string'],
-            
+
             // Format errors
             'empty string' => ['', 'empty'],
             'too short' => ['1234567Z', 'missing digit'],
             'too long' => ['123456789Z', 'extra digit'],
             'missing letter' => ['12345678', 'no letter'],
             'letter first (NIE)' => ['X1234567L', 'NIE format'],
-            
+
             // Checksum errors
             'wrong letter' => ['12345678A', 'wrong checksum'],
             'zeros with wrong letter' => ['00000000Z', 'should be T'],
-            
+
             // Special chars
             'with dots' => ['12.345.678-Z', 'dots not allowed by default'],
         ];

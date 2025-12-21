@@ -23,7 +23,7 @@ class NieRuleTest extends TestCase
     /**
      * Register the package service provider so config() & Validator facade work.
      *
-     * @param \Illuminate\Foundation\Application $app
+     * @param  \Illuminate\Foundation\Application  $app
      * @return array<int, class-string>
      */
     protected function getPackageProviders($app): array
@@ -36,7 +36,7 @@ class NieRuleTest extends TestCase
      */
     public function test_valid_nie_numbers(string $nie): void
     {
-        $rule = new Nie();
+        $rule = new Nie;
         $this->assertTrue($rule->passes('nie', $nie), "NIE '{$nie}' should be valid");
     }
 
@@ -45,15 +45,15 @@ class NieRuleTest extends TestCase
      */
     public function test_invalid_nie_numbers(mixed $nie, string $reason): void
     {
-        $rule = new Nie();
+        $rule = new Nie;
         $this->assertFalse($rule->passes('nie', $nie), "NIE '{$nie}' should be invalid: {$reason}");
     }
 
     public function test_error_message_is_translatable(): void
     {
-        $rule = new Nie();
+        $rule = new Nie;
         $message = $rule->message();
-        
+
         $this->assertIsString($message);
         $this->assertNotEmpty($message);
         // The key might change, so checking it's a string key or the translated text is enough
@@ -77,7 +77,7 @@ class NieRuleTest extends TestCase
             'X prefix mixed formatting' => ['x-1234567 L'],
             'X with zeros' => ['X0000000T'],
             'X with max digits' => ['X9999999J'],
-            
+
             // Y prefix (1)
             'Y prefix with valid checksum' => ['Y1234567X'],
             'Y prefix lowercase' => ['y1234567x'],
@@ -85,7 +85,7 @@ class NieRuleTest extends TestCase
             'Y prefix with hyphens' => ['Y-1234567-X'],
             'Y with zeros' => ['Y0000000Z'],
             'Y with max digits' => ['Y9999999G'],
-            
+
             // Z prefix (2)
             'Z prefix with valid checksum' => ['Z1234567R'],
             'Z prefix lowercase' => ['z1234567r'],
@@ -93,7 +93,7 @@ class NieRuleTest extends TestCase
             'Z prefix with hyphens' => ['Z-1234567-R'],
             'Z with zeros' => ['Z0000000M'],
             'Z with max digits' => ['Z9999999H'],
-            
+
             // All 23 possible control letters (testing modulo 23 algorithm)
             'Control letter T (index 0)' => ['X0000000T'],
             'Control letter R (index 1)' => ['X0000001R'],
@@ -132,11 +132,11 @@ class NieRuleTest extends TestCase
             // Type errors
             'null value' => [null, 'null is not a string'],
             'integer value' => [12345678, 'integer is not a string'],
-            
+
             // Empty/whitespace
             'empty string' => ['', 'empty string'],
             'only spaces' => ['   ', 'only whitespace'],
-            
+
             // Format errors
             'too short' => ['X123456L', 'missing one digit'],
             'too long' => ['X12345678L', 'extra digit'],
@@ -148,19 +148,19 @@ class NieRuleTest extends TestCase
             'digit in prefix position' => ['11234567L', 'digit instead of letter prefix'],
             'letter in digit position' => ['X12A4567L', 'letter in digit section'],
             'digit in control position' => ['X12345671', 'digit instead of control letter'],
-            
+
             // Checksum errors
             'wrong control letter' => ['X1234567A', 'checksum mismatch'],
             'X with wrong checksum' => ['X0000000R', 'should be T, not R'],
             'Y with wrong checksum' => ['Y0000000T', 'should be Z, not T'],
             'Z with wrong checksum' => ['Z0000000T', 'should be W, not T'],
-            
+
             // Special characters
             'with dots' => ['X.1234567.L', 'dots not allowed'],
             'with slashes' => ['X/1234567/L', 'slashes not allowed'],
             'with parentheses' => ['X(1234567)L', 'parentheses not allowed'],
             'with unicode' => ['X1234567Ñ', 'unicode not allowed'],
-            
+
             // Completely invalid
             'random string' => ['ABCDEFGH', 'not NIE format'],
             'DNI format' => ['12345678Z', 'DNI not NIE'],

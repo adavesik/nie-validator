@@ -51,8 +51,8 @@ class Nie implements Rule
     /**
      * Determine if the validation rule passes.
      *
-     * @param string $attribute The attribute name being validated
-     * @param mixed $value The value to validate
+     * @param  string  $attribute  The attribute name being validated
+     * @param  mixed  $value  The value to validate
      * @return bool True if the NIE is valid, false otherwise
      */
     public function passes($attribute, $value): bool
@@ -79,15 +79,15 @@ class Nie implements Rule
     /**
      * Calculate the expected control letter for a given NIE
      *
-     * @param string $normalizedValue The normalized NIE (e.g., X1234567L)
+     * @param  string  $normalizedValue  The normalized NIE (e.g., X1234567L)
      * @return string The expected control letter
      */
     private function calculateControlLetter(string $normalizedValue): string
     {
         // Map prefix to digit: X→0, Y→1, Z→2
         $prefix = $normalizedValue[0];
-        $number = self::PREFIX_MAP[$prefix] . substr($normalizedValue, 1, 7);
-        
+        $number = self::PREFIX_MAP[$prefix].substr($normalizedValue, 1, 7);
+
         $index = (int) $number % self::MODULO;
 
         return self::CONTROL_LETTERS[$index];
@@ -95,8 +95,6 @@ class Nie implements Rule
 
     /**
      * Get the validation error message.
-     *
-     * @return string
      */
     public function message(): string
     {

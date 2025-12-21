@@ -19,7 +19,7 @@ use Sevada\NifValidator\NifValidatorServiceProvider;
 class ServiceProviderTest extends TestCase
 {
     /**
-     * @param \Illuminate\Foundation\Application $app
+     * @param  \Illuminate\Foundation\Application  $app
      * @return array<int, class-string>
      */
     protected function getPackageProviders($app): array
@@ -71,7 +71,7 @@ class ServiceProviderTest extends TestCase
     public function test_config_is_loaded(): void
     {
         $controlLetters = config('nif.control_letters');
-        
+
         $this->assertIsArray($controlLetters);
         $this->assertCount(23, $controlLetters);
         $this->assertEquals('T', $controlLetters[0]);
@@ -80,7 +80,7 @@ class ServiceProviderTest extends TestCase
     public function test_translations_are_loaded(): void
     {
         $message = trans('nif-validator::validation.nie');
-        
+
         $this->assertIsString($message);
         $this->assertNotEmpty($message);
         $this->assertStringContainsString('NIE', $message);
@@ -94,7 +94,7 @@ class ServiceProviderTest extends TestCase
         );
 
         $this->assertFalse($validator->passes());
-        
+
         $errors = $validator->errors()->get('document');
         $this->assertNotEmpty($errors);
         $this->assertStringContainsString('NIE', $errors[0]);
