@@ -11,4 +11,5 @@ return [
     */
 
     'nie' => 'El :attribute no es un NIE (Número de Identidad de Extranjero) válido.',
+    'dni' => 'El :attribute no es un DNI (Documento Nacional de Identidad) válido.',
 ];

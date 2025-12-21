@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Sevada\NieValidator\Tests\Unit;
+namespace Sevada\NifValidator\Tests\Unit;
 
 use Orchestra\Testbench\TestCase;
-use Sevada\NieValidator\NieValidatorServiceProvider;
-use Sevada\NieValidator\Rules\Nie;
+use Sevada\NifValidator\NifValidatorServiceProvider;
+use Sevada\NifValidator\Rules\Nie;
 
 /**
  * Unit tests for NIE validation rule
@@ -28,7 +28,7 @@ class NieRuleTest extends TestCase
      */
     protected function getPackageProviders($app): array
     {
-        return [NieValidatorServiceProvider::class];
+        return [NifValidatorServiceProvider::class];
     }
 
     /**
@@ -56,6 +56,9 @@ class NieRuleTest extends TestCase
         
         $this->assertIsString($message);
         $this->assertNotEmpty($message);
+        // The key might change, so checking it's a string key or the translated text is enough
+        // but let's check it contains the translation key format if not translated in unit tests
+        // or just strict check
     }
 
     /**

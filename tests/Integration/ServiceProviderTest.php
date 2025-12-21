@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Sevada\NieValidator\Tests\Integration;
+namespace Sevada\NifValidator\Tests\Integration;
 
 use Illuminate\Support\Facades\Validator;
 use Orchestra\Testbench\TestCase;
-use Sevada\NieValidator\NieValidatorServiceProvider;
+use Sevada\NifValidator\NifValidatorServiceProvider;
 
 /**
- * Integration tests for NIE Validator Service Provider
+ * Integration tests for NIF (NIE/DNI) Validator Service Provider
  *
  * Tests the Laravel integration including:
  * - Service provider registration
@@ -24,7 +24,7 @@ class ServiceProviderTest extends TestCase
      */
     protected function getPackageProviders($app): array
     {
-        return [NieValidatorServiceProvider::class];
+        return [NifValidatorServiceProvider::class];
     }
 
     public function test_nie_rule_registered_with_validator_facade(): void
@@ -70,7 +70,7 @@ class ServiceProviderTest extends TestCase
 
     public function test_config_is_loaded(): void
     {
-        $controlLetters = config('nie.control_letters');
+        $controlLetters = config('nif.control_letters');
         
         $this->assertIsArray($controlLetters);
         $this->assertCount(23, $controlLetters);
@@ -79,7 +79,7 @@ class ServiceProviderTest extends TestCase
 
     public function test_translations_are_loaded(): void
     {
-        $message = trans('nie-validator::validation.nie');
+        $message = trans('nif-validator::validation.nie');
         
         $this->assertIsString($message);
         $this->assertNotEmpty($message);

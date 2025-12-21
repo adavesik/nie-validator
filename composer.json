@@ -29,18 +29,18 @@
   },
   "autoload": {
     "psr-4": {
-      "Sevada\\NieValidator\\": "src/"
+      "Sevada\\NifValidator\\": "src/"
     }
   },
   "autoload-dev": {
     "psr-4": {
-      "Sevada\\NieValidator\\Tests\\": "tests/"
+      "Sevada\\NifValidator\\Tests\\": "tests/"
     }
   },
   "extra": {
     "laravel": {
       "providers": [
-        "Sevada\\NieValidator\\NieValidatorServiceProvider"
+        "Sevada\\NifValidator\\NifValidatorServiceProvider"
       ]
     }
   },

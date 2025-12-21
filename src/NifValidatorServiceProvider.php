@@ -2,19 +2,20 @@
 
 declare(strict_types=1);
 
-namespace Sevada\NieValidator;
+namespace Sevada\NifValidator;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Validator;
-use Sevada\NieValidator\Rules\Nie;
+use Sevada\NifValidator\Rules\Dni;
+use Sevada\NifValidator\Rules\Nie;
 
 /**
- * NIE Validator Service Provider
+ * NIF (NIE/DNI) Validator Service Provider
  *
- * Registers the NIE validation rule with Laravel's validator
+ * Registers the NIE and DNI validation rules with Laravel's validator
  * and publishes configuration and translation files.
  */
-class NieValidatorServiceProvider extends ServiceProvider
+class NifValidatorServiceProvider extends ServiceProvider
 {
     /**
      * Bootstrap package services.
@@ -25,22 +26,29 @@ class NieValidatorServiceProvider extends ServiceProvider
     {
         // Publish configuration file
         $this->publishes([
-            __DIR__ . '/../config/nie.php' => config_path('nie.php'),
-        ], 'nie-config');
+            __DIR__ . '/../config/nif.php' => config_path('nif.php'),
+        ], 'nif-config');
 
         // Publish translation files
         $this->publishes([
-            __DIR__ . '/../resources/lang' => lang_path('vendor/nie-validator'),
-        ], 'nie-translations');
+            __DIR__ . '/../resources/lang' => lang_path('vendor/nif-validator'),
+        ], 'nif-translations');
 
         // Load package translations
-        $this->loadTranslationsFrom(__DIR__ . '/../resources/lang', 'nie-validator');
+        $this->loadTranslationsFrom(__DIR__ . '/../resources/lang', 'nif-validator');
 
         // Register the "nie" validation rule
         Validator::extend(
             'nie',
             fn ($attribute, $value) => (new Nie())->passes($attribute, $value),
-            trans('nie-validator::validation.nie')
+            trans('nif-validator::validation.nie')
+        );
+
+        // Register the "dni" validation rule
+        Validator::extend(
+            'dni',
+            fn ($attribute, $value) => (new Dni())->passes($attribute, $value),
+            trans('nif-validator::validation.dni')
         );
     }
 
@@ -53,8 +61,8 @@ class NieValidatorServiceProvider extends ServiceProvider
     {
         // Merge default configuration
         $this->mergeConfigFrom(
-            __DIR__ . '/../config/nie.php',
-            'nie'
+            __DIR__ . '/../config/nif.php',
+            'nif'
         );
     }
 }

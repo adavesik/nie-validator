@@ -2,46 +2,39 @@
 
 declare(strict_types=1);
 
-namespace Sevada\NieValidator\Rules;
+namespace Sevada\NifValidator\Rules;
 
 use Illuminate\Contracts\Validation\Rule;
 
 /**
  * NIE (Número de Identidad de Extranjero) Validation Rule
  *
- * Validates Spanish foreigner identification numbers according to the official algorithm
+ * Validates Spanish NIE numbers according to the official algorithm
  * regulated by Real Decreto 1553/2005, Artículo 11.
  *
  * NIE Format: [X|Y|Z] + 7 digits + control letter
  * Example: X1234567L
  *
  * Algorithm:
- * 1. Replace prefix letter with digit: X=0, Y=1, Z=2
+ * 1. Replace prefix (X→0, Y→1, Z→2)
  * 2. Calculate modulo 23 of the resulting 8-digit number
  * 3. Use the remainder as index into the control letter array
  * 4. Verify the control letter matches
- *
- * @see https://www.boe.es/buscar/doc.php?id=BOE-A-2005-16909
  */
 class Nie implements Rule
 {
     /**
-     * Valid NIE format pattern: prefix (X/Y/Z) + 7 digits + control letter
+     * Valid NIE format pattern
      */
     private const PATTERN = '/^[XYZ]\d{7}[A-Z]$/';
 
     /**
-     * Mapping of NIE prefix letters to their numeric equivalents
+     * Prefix mapping to digits
      */
-    private const PREFIX_MAP = [
-        'X' => '0',
-        'Y' => '1',
-        'Z' => '2',
-    ];
+    private const PREFIX_MAP = ['X' => '0', 'Y' => '1', 'Z' => '2'];
 
     /**
      * Control letters for remainders 0-22 (modulo 23)
-     * Official sequence defined by Spanish regulation
      */
     private const CONTROL_LETTERS = 'TRWAGMYFPDXBNJZSQVHLCKE';
 
@@ -51,7 +44,7 @@ class Nie implements Rule
     private const MODULO = 23;
 
     /**
-     * Position of the control letter in the NIE string (0-indexed)
+     * Position of the control letter in the normalized string
      */
     private const CONTROL_LETTER_POSITION = 8;
 
@@ -70,47 +63,43 @@ class Nie implements Rule
         }
 
         // Normalize: uppercase and remove spaces/hyphens
-        $normalized = strtoupper(str_replace([' ', '-'], '', $value));
+        $val = strtoupper(str_replace([' ', '-'], '', $value));
 
-        // Validate format: X|Y|Z + 7 digits + letter
-        if (! preg_match(self::PATTERN, $normalized)) {
+        // Format: X|Y|Z + 7 digits + letter
+        if (! preg_match(self::PATTERN, $val)) {
             return false;
         }
 
-        // Extract components
-        $prefix = $normalized[0];
-        $digits = substr($normalized, 1, 7);
-        $providedLetter = $normalized[self::CONTROL_LETTER_POSITION];
-
-        // Convert prefix to digit and build 8-digit number
-        $numericValue = self::PREFIX_MAP[$prefix] . $digits;
-
         // Calculate expected control letter
-        $expectedLetter = $this->calculateControlLetter((int) $numericValue);
+        $expected = $this->calculateControlLetter($val);
 
-        // Verify control letter matches
-        return $providedLetter === $expectedLetter;
+        return $val[self::CONTROL_LETTER_POSITION] === $expected;
     }
 
     /**
-     * Calculate the control letter for a given numeric value.
+     * Calculate the expected control letter for a given NIE
      *
-     * @param int $numericValue The 8-digit numeric value (prefix digit + 7 digits)
+     * @param string $normalizedValue The normalized NIE (e.g., X1234567L)
      * @return string The expected control letter
      */
-    private function calculateControlLetter(int $numericValue): string
+    private function calculateControlLetter(string $normalizedValue): string
     {
-        $index = $numericValue % self::MODULO;
+        // Map prefix to digit: X→0, Y→1, Z→2
+        $prefix = $normalizedValue[0];
+        $number = self::PREFIX_MAP[$prefix] . substr($normalizedValue, 1, 7);
+        
+        $index = (int) $number % self::MODULO;
+
         return self::CONTROL_LETTERS[$index];
     }
 
     /**
      * Get the validation error message.
      *
-     * @return string The error message (translatable)
+     * @return string
      */
     public function message(): string
     {
-        return trans('nie-validator::validation.nie');
+        return trans('nif-validator::validation.nie');
     }
 }
